@@ -28,19 +28,17 @@ import { styles } from '../_preview/styles';
 
 interface Args {
   dir: string;
+  port: string;
 }
 
-export const dev = async ({ dir }: Args) => {
+export const dev = async ({ dir, port }: Args) => {
   const emailDir = convertToAbsolutePath(dir);
   const watcherInstance = createWatcherInstance(emailDir);
   try {
     const hasReactEmailDirectory = checkDirectoryExist(REACT_EMAIL_ROOT);
-    let packageManager: PackageManager;
-    try {
-      packageManager = await detectPackageManager({ cwd: CURRENT_PATH });
-    } catch (_) {
-      packageManager = 'yarn';
-    }
+    const packageManager: PackageManager = await detectPackageManager({
+      cwd: CURRENT_PATH,
+    }).catch(() => 'npm');
 
     if (hasReactEmailDirectory) {
       const isUpToDate = await checkPackageIsUpToDate();
@@ -48,7 +46,7 @@ export const dev = async ({ dir }: Args) => {
       if (isUpToDate) {
         await Promise.all([generateEmailsPreview(emailDir), syncPkg()]);
         await installDependencies(packageManager);
-        shell.exec(`${packageManager} run dev`, { async: true });
+        startDevServer(packageManager, port);
         watcher(watcherInstance, emailDir);
         return;
       }
@@ -61,12 +59,16 @@ export const dev = async ({ dir }: Args) => {
     await createAppFiles();
     await Promise.all([generateEmailsPreview(emailDir), syncPkg()]);
     await installDependencies(packageManager);
-    shell.exec(`${packageManager} run dev`, { async: true });
+    startDevServer(packageManager, port);
     watcher(watcherInstance, emailDir);
   } catch (error) {
     await watcherInstance.close();
     shell.exit(1);
   }
+};
+
+const startDevServer = (packageManager: string, port: string) => {
+  shell.exec(`${packageManager} run dev -- -p ${port}`, { async: true });
 };
 
 const convertToAbsolutePath = (dir: string): string =>
@@ -143,7 +145,6 @@ const generateEmailsPreview = async (emailDir: string) => {
 
     await createEmailPreviews(emailDir);
     await createStaticFiles(emailDir);
-    await createComponents(emailDir);
 
     spinner.stopAndPersist({
       symbol: logSymbols.success,
@@ -156,12 +157,8 @@ const generateEmailsPreview = async (emailDir: string) => {
 
 const createEmailPreviews = async (emailDir: string) => {
   const hasEmailsDirectory = checkDirectoryExist(emailDir);
-
-  const isEmailsDirectoryEmpty = hasEmailsDirectory
-    ? await checkEmptyDirectory(emailDir)
-    : true;
-
-  if (isEmailsDirectoryEmpty) {
+  if (hasEmailsDirectory) {
+    await checkEmptyDirectory(emailDir);
   }
 
   const hasPackageEmailsDirectory = checkDirectoryExist(PACKAGE_EMAILS_PATH);
@@ -170,42 +167,35 @@ const createEmailPreviews = async (emailDir: string) => {
     await fs.promises.rm(PACKAGE_EMAILS_PATH, { recursive: true });
   }
 
-  await copy(path.join(emailDir, '*{.tsx,.jsx}'), PACKAGE_EMAILS_PATH);
+  await copy(path.join(emailDir, '**'), PACKAGE_EMAILS_PATH);
 };
 
 const createStaticFiles = async (emailDir: string) => {
   const hasPackageStaticDirectory = checkDirectoryExist(
     `${REACT_EMAIL_ROOT}/public/static`,
   );
-  const staticDir = path.join(emailDir, 'static');
-  const hasStaticDirectory = checkDirectoryExist(staticDir);
-
   if (hasPackageStaticDirectory) {
     await fs.promises.rm(`${REACT_EMAIL_ROOT}/public/static`, {
       recursive: true,
     });
   }
 
-  if (hasStaticDirectory) {
-    await copy(staticDir, `${REACT_EMAIL_ROOT}/public/static`);
-  }
-};
-
-const createComponents = async (emailDir: string) => {
-  const hasPackageComponentsDirectory = checkDirectoryExist(
-    `${PACKAGE_EMAILS_PATH}/components`,
+  // Make sure that the "static" folder does not exists in .react-email/emails
+  // since it should only exists in .react-email/public, but the "createEmailPreviews"-function will blindly copy the complete emails folder
+  const hasPackageStaticDirectoryInEmails = checkDirectoryExist(
+    `${REACT_EMAIL_ROOT}/emails/static`,
   );
-  const componentDir = path.join(emailDir, 'components');
-  const hasComponentsDirectory = checkDirectoryExist(componentDir);
-
-  if (hasPackageComponentsDirectory) {
-    await fs.promises.rm(`${PACKAGE_EMAILS_PATH}/components`, {
+  if (hasPackageStaticDirectoryInEmails) {
+    await fs.promises.rm(`${REACT_EMAIL_ROOT}/emails/static`, {
       recursive: true,
     });
   }
 
-  if (hasComponentsDirectory) {
-    await copy(componentDir, `${PACKAGE_EMAILS_PATH}/components`);
+  const staticDir = path.join(emailDir, 'static');
+  const hasStaticDirectory = checkDirectoryExist(staticDir);
+
+  if (hasStaticDirectory) {
+    await copy(staticDir, `${REACT_EMAIL_ROOT}/public/static`);
   }
 };
 

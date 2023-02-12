@@ -1,14 +1,14 @@
-![React Email Column cover](https://react.email/static/covers/column.png)
+![React Email Row cover](https://react.email/static/covers/row.png)
 
-<div align="center"><strong>@react-email/column</strong></div>
-<div align="center">Display a column that separates content areas vertically in your email.</div>
+<div align="center"><strong>@react-email/row</strong></div>
+<div align="center">A React row component.</div>
 <br />
 <div align="center">
 <a href="https://react.email">Website</a> 
 <span> · </span>
-<a href="https://github.com/resendlabs/react-email">GitHub</a> 
+<a href="https://react.email">Documentation</a> 
 <span> · </span>
-<a href="https://react.email/discord">Discord</a>
+<a href="https://react.email">Twitter</a>
 </div>
 
 ## Install
@@ -18,13 +18,13 @@ Install component from your command line.
 #### With yarn
 
 ```sh
-yarn add @react-email/column -E
+yarn add @react-email/row -E
 ```
 
 #### With npm
 
 ```sh
-npm install @react-email/column -E
+npm install @react-email/row -E
 ```
 
 ## Getting started
@@ -32,15 +32,19 @@ npm install @react-email/column -E
 Add the component to your email template. Include styles where needed.
 
 ```jsx
-import { Row } from '@react-email/row';
 import { Column } from '@react-email/column';
+import { Row } from '@react-email/row';
+
 const Email = () => {
-  return(
-    <Row>
-      <Column>A<Column/>
-      <Column>B<Column/>
-      <Column>C<Column/>
-    </Row>
+  return (
+    <>
+      ...
+      <Row>
+        <Column>A</Column>
+        <Column>B</Column>
+      </Row>
+      ...
+    </>
   );
 };
 ```
