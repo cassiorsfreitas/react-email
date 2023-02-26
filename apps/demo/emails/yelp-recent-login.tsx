@@ -1,16 +1,18 @@
-import { Container } from '@react-email/container';
-import { Button } from '@react-email/button';
-import { Head } from '@react-email/head';
-import { Heading } from '@react-email/heading';
-import { Html } from '@react-email/html';
-import { Img } from '@react-email/img';
-import { Preview } from '@react-email/preview';
-import { Section } from '@react-email/section';
-import { Text } from '@react-email/text';
+import {
+  Body,
+  Button,
+  Container,
+  Column,
+  Head,
+  Heading,
+  Html,
+  Img,
+  Preview,
+  Row,
+  Section,
+  Text,
+} from '@react-email/components';
 import * as React from 'react';
-import { Body } from '@react-email/body';
-import { Row } from '@react-email/row';
-import { Column } from '@react-email/column';
 
 interface EmailProps {
   userFirstName: string;
@@ -53,7 +55,6 @@ export default function Email({
               <Column>
                 <Heading
                   style={{
-                    ...paragraph,
                     fontSize: 32,
                     fontWeight: 'bold',
                     textAlign: 'center',
@@ -64,7 +65,6 @@ export default function Email({
                 <Heading
                   as="h2"
                   style={{
-                    ...paragraph,
                     fontSize: 26,
                     fontWeight: 'bold',
                     textAlign: 'center',
@@ -87,7 +87,6 @@ export default function Email({
                 </Text>
                 <Text
                   style={{
-                    ...paragraph,
                     color: 'rgb(0,0,0, 0.5)',
                     fontSize: 14,
                     marginTop: -5,
@@ -119,7 +118,6 @@ export default function Email({
 
           <Text
             style={{
-              ...paragraph,
               textAlign: 'center',
               fontSize: 12,
               color: 'rgb(0,0,0, 0.7)',
