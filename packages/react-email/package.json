@@ -1,6 +1,6 @@
 {
   "name": "react-email",
-  "version": "1.7.14",
+  "version": "1.7.15",
   "description": "A live preview of your emails right in your browser.",
   "bin": {
     "email": "./dist/source/index.js"
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@commander-js/extra-typings": "9.4.1",
+    "@manypkg/find-root": "2.1.0",
     "@react-email/render": "0.0.6",
     "chokidar": "3.5.3",
     "commander": "9.4.1",
