@@ -1,10 +1,8 @@
-import * as React from 'react';
+import * as React from "react";
 
-type RootProps = React.ComponentPropsWithoutRef<'body'>;
+type RootProps = React.ComponentPropsWithoutRef<"body">;
 
-export interface BodyProps extends RootProps {
-  style?: React.CSSProperties;
-}
+export interface BodyProps extends RootProps {}
 
 export const Body: React.FC<Readonly<BodyProps>> = ({
   children,
@@ -12,14 +10,14 @@ export const Body: React.FC<Readonly<BodyProps>> = ({
   ...props
 }) => {
   const styleDefault = {
-    wordSpacing: 'normal',
-    ...style
-  }
-  return(
-    <body {...props} style={style}>
+    wordSpacing: "normal",
+    ...style,
+  };
+  return (
+    <body {...props} data-id="__react-email-body" style={style}>
       {children}
     </body>
-  )
+  );
 };
 
-Body.displayName = 'Body';
+Body.displayName = "Body";

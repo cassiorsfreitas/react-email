@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 
-type ContainerElement = React.ElementRef<'table'>;
-type RootProps = React.ComponentPropsWithoutRef<'table'>;
+type ContainerElement = React.ElementRef<"table">;
+type RootProps = React.ComponentPropsWithoutRef<"table">;
 
 export interface ContainerProps extends RootProps {}
 
@@ -11,21 +11,24 @@ export const Container = React.forwardRef<
 >(({ children, style, ...props }, forwardedRef) => {
   return (
     <table
+      align="center"
+      width="100%"
       {...props}
       ref={forwardedRef}
-      align="center"
+      data-id="__react-email-container"
       role="presentation"
       cellSpacing="0"
       cellPadding="0"
       border={0}
-      width="100%"
-      style={{ maxWidth: '37.5em', ...style }}
+      style={{ maxWidth: "37.5em", ...style }}
     >
-      <tr style={{ width: '100%' }}>
-        <td>{children}</td>
-      </tr>
+      <tbody>
+        <tr style={{ width: "100%" }}>
+          <td>{children}</td>
+        </tr>
+      </tbody>
     </table>
   );
 });
 
-Container.displayName = 'Container';
+Container.displayName = "Container";

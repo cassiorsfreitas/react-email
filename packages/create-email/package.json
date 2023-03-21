@@ -1,6 +1,6 @@
 {
   "name": "create-email",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "The easiest way to get started with React Email",
   "main": "src/index.js",
   "type": "module",
@@ -26,5 +26,8 @@
   },
   "bin": {
     "create-email": "src/index.js"
+  },
+  "devDependencies": {
+    "prettier": "2.8.4"
   }
 }
