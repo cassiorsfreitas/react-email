@@ -43,19 +43,14 @@
   "navigation": [
     {
       "group": "Overview",
-      "pages": [
-        "introduction",
-        "contributing",
-        "changelog",
-        "roadmap",
-        "cli"
-      ]
+      "pages": ["introduction", "contributing", "changelog", "roadmap", "cli"]
     },
     {
       "group": "Getting Started",
       "pages": [
         "getting-started/automatic-setup",
-        "getting-started/manual-setup"
+        "getting-started/manual-setup",
+        "getting-started/migrating-to-react-email"
       ]
     },
     {
@@ -65,13 +60,15 @@
         "components/head",
         "components/button",
         "components/column",
+        "components/row",
         "components/container",
         "components/font",
         "components/heading",
         "components/hr",
         "components/image",
         "components/link",
-        "components/paragraph",
+        "components/markdown",
+        "components/code-block",
         "components/preview",
         "components/section",
         "components/tailwind",
@@ -80,9 +77,7 @@
     },
     {
       "group": "Utilities",
-      "pages": [
-        "utilities/render"
-      ]
+      "pages": ["utilities/render"]
     },
     {
       "group": "Integrations",
@@ -93,7 +88,8 @@
         "integrations/sendgrid",
         "integrations/postmark",
         "integrations/aws-ses",
-        "integrations/mailersend"
+        "integrations/mailersend",
+        "integrations/plunk"
       ]
     }
   ],

@@ -5,7 +5,12 @@ type FallbackFont =
   | "Helvetica"
   | "Verdana"
   | "Georgia"
-  | "Times New Roman";
+  | "Times New Roman"
+  | "serif"
+  | "sans-serif"
+  | "monospace"
+  | "cursive"
+  | "fantasy";
 
 type FontFormat =
   | "woff"
@@ -16,7 +21,7 @@ type FontFormat =
   | "svg";
 
 type FontWeight = React.CSSProperties["fontWeight"];
-type FontStyle = React.CSSProperties["fontSize"];
+type FontStyle = React.CSSProperties["fontStyle"];
 
 export interface FontProps {
   /** The font you want to use. NOTE: Do not insert multiple fonts here, use fallbackFontFamily for that */
@@ -61,13 +66,13 @@ export const Font: React.FC<Readonly<FontProps>> = ({
 
     * {
       font-family: '${fontFamily}', ${
-    Array.isArray(fallbackFontFamily)
-      ? fallbackFontFamily.join(", ")
-      : fallbackFontFamily
-  };
+        Array.isArray(fallbackFontFamily)
+          ? fallbackFontFamily.join(", ")
+          : fallbackFontFamily
+      };
     }
   `;
-  return <style>{style}</style>;
+  return <style dangerouslySetInnerHTML={{ __html: style }} />;
 };
 
 Font.displayName = "Font";
